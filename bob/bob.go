@@ -1,4 +1,12 @@
-// Package bob
+// Package bob provides ...
+
+/* I need help and have some question. Check it please.
+1. What should I write in package comment? what is it for or how does it work?
+2. I specifically did not use regexp to complete this task,
+	because I wanted to understand and remember	functions of strings, unicode packages.
+	So I can`t pass test for 100%. Maybe you tell me where I was wrong?! Thanks a lot.
+*/
+
 package bob
 
 import (
@@ -9,7 +17,7 @@ import (
 const suffixQ = "?"
 const suffixY = "!"
 
-// Hey answers to Bob depending on 3 functions below
+// Hey answers to Bob depending on functions below
 func Hey(s string) string {
 	s = strings.TrimSpace(strings.Replace(s, " ", "", -1))
 
@@ -29,7 +37,6 @@ func isQuestion(s string) bool {
 	return strings.HasSuffix(s, suffixQ) && s != strings.ToUpper(s)
 }
 
-// s == strings.ToLower(s)
 func isYelling(s string) bool {
 	return strings.HasSuffix(s, suffixY) && s == strings.ToUpper(s) || isLetter(s)
 }
@@ -59,49 +66,3 @@ func isDigit(s string) bool {
 	}
 	return true
 }
-
-// func noLetter(s string) bool {
-// 	for _, r := range s {
-// 		if unicode.IsSpace(r) && unicode.IsPunct(r) {
-// 			return true
-// 		}
-// 	}
-// 	return false
-// }
-
-// func isGraphic(s string) bool {
-// 	for _, r := range s {
-// 		if !unicode.IsGraphic(r) {
-// 			return false
-// 		}
-// 	}
-// 	return true
-// }
-
-// func Hey(remark string) string {
-//   remark = strings.TrimSpace(remark)
-//
-//   lowerRe, _ := regexp.Compile("[a-z]")
-//   anyLettersRe, _ := regexp.Compile("[a-zA-Z]")
-//
-//   isSilence := len(remark) == 0
-//   isQuestion := strings.HasSuffix(remark, "?")
-//   isExclamation := !lowerRe.MatchString(remark)
-//   anyLetters := anyLettersRe.MatchString(remark)
-//
-//   if isSilence {
-//     return "Fine. Be that way!"
-//   } else if !anyLetters && isQuestion {
-//     return "Sure."
-//   } else if !anyLetters {
-//     return "Whatever."
-//   } else if isQuestion && isExclamation {
-//     return "Calm down, I know what I'm doing!"
-//   } else if isQuestion {
-//     return "Sure."
-//   } else if isExclamation {
-//     return "Whoa, chill out!"
-//   } else {
-//     return "Whatever."
-//   }
-// }
