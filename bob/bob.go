@@ -6,11 +6,12 @@ import (
 	"unicode"
 )
 
-const suffix = "?"
+const suffixQ = "?"
+const suffixY = "!"
 
 // Hey answers to Bob depending on 3 functions below
 func Hey(s string) string {
-	s = strings.TrimSpace(s)
+	s = strings.TrimSpace(strings.Replace(s, " ", "", -1))
 
 	if isQuestion(s) {
 		return "Sure."
@@ -25,13 +26,12 @@ func Hey(s string) string {
 }
 
 func isQuestion(s string) bool {
-	// suffix := "?"
-	return strings.HasSuffix(s, suffix) && s != strings.ToUpper(s)
+	return strings.HasSuffix(s, suffixQ) && s != strings.ToUpper(s)
 }
 
 // s == strings.ToLower(s)
 func isYelling(s string) bool {
-	return !strings.HasSuffix(s, suffix) && s == strings.ToUpper(s) && isLetter(s)
+	return strings.HasSuffix(s, suffixY) && s == strings.ToUpper(s) || isLetter(s)
 }
 
 func isSilence(s string) bool {
@@ -39,19 +39,26 @@ func isSilence(s string) bool {
 }
 
 func isYellingQuestion(s string) bool {
-	return s == strings.ToUpper(s) && strings.HasSuffix(s, suffix)
+	return strings.HasSuffix(s, suffixQ) && s == strings.ToUpper(s) && !isDigit(s)
 }
 
 func isLetter(s string) bool {
-	for _, r := range s {
-		if !unicode.IsLetter(r) {
+	for i := 0; i < len(s); i++ {
+		if !unicode.IsLetter(rune(s[i])) {
 			return false
 		}
 	}
 	return true
 }
 
-// && !unicode.IsPunct(r) && !unicode.IsGraphic(r)
+func isDigit(s string) bool {
+	for _, r := range s {
+		if !unicode.IsDigit(r) {
+			return false
+		}
+	}
+	return true
+}
 
 // func noLetter(s string) bool {
 // 	for _, r := range s {
@@ -69,4 +76,32 @@ func isLetter(s string) bool {
 // 		}
 // 	}
 // 	return true
+// }
+
+// func Hey(remark string) string {
+//   remark = strings.TrimSpace(remark)
+//
+//   lowerRe, _ := regexp.Compile("[a-z]")
+//   anyLettersRe, _ := regexp.Compile("[a-zA-Z]")
+//
+//   isSilence := len(remark) == 0
+//   isQuestion := strings.HasSuffix(remark, "?")
+//   isExclamation := !lowerRe.MatchString(remark)
+//   anyLetters := anyLettersRe.MatchString(remark)
+//
+//   if isSilence {
+//     return "Fine. Be that way!"
+//   } else if !anyLetters && isQuestion {
+//     return "Sure."
+//   } else if !anyLetters {
+//     return "Whatever."
+//   } else if isQuestion && isExclamation {
+//     return "Calm down, I know what I'm doing!"
+//   } else if isQuestion {
+//     return "Sure."
+//   } else if isExclamation {
+//     return "Whoa, chill out!"
+//   } else {
+//     return "Whatever."
+//   }
 // }
